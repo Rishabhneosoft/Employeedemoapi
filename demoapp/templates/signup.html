@@ -1,0 +1,44 @@
+{% extends 'layout.html' %}
+{% block body %}
+
+    <h2>this is signup</h2>
+    <div class="container border p-3 rounded col-4">
+        <h4>signup Form</h4>
+        <form method =POST action="{% url 'Signup' %}" id="signupForm">
+            {{form}}
+            <input type="submit" value="Signup">
+            {% csrf_token %}
+        </form>
+        
+
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script>
+        $(document).on('submit', '#signupForm', function(e){
+            e.preventDefault();
+            var name = $('#id_name').val()
+            var username = $('#id_username').val()
+            var email = $('#id_Email').val()
+            var password = $('#id_password').val()
+            var re_password = $('#id_re_password').val()
+
+            $.ajax({
+                type:'POST',
+                url:'/signup/',
+                data: {
+                    name :name,
+                    username :username,
+                    email :email,
+                    password :password,
+                    re_password :re_password,
+                    csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+                },
+                success:function(response){
+                    console.log(response)
+                }
+            })
+
+
+        })
+    </script>
+{% endblock %}
